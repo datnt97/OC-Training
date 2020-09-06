@@ -1,0 +1,14 @@
+using OrchardCore.Modules.Manifest;
+
+[assembly: Module(
+	Name = "This is name of the module.",
+	Author = "Tmt solutions", 
+	Website = "this is link",
+	Version = "The version of this module",
+	Descriptions = "Description for module",
+	Dependencies = new[] {
+		"The name of dependency module"	
+
+	}
+	
+)]
