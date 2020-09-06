@@ -62,7 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lombiq.VueJs\Lombiq.VueJs.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\Lombiq.VueJs\Lombiq.VueJs.csproj" />
     <ProjectReference Include="..\OrchardCore.Contents\OrchardCore.Contents.csproj" />
   </ItemGroup>
 
