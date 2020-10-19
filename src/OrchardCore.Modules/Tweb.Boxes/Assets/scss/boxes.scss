@@ -1,0 +1,230 @@
+.light-blue-background-class {
+    background-color: #AFCEE9;
+}
+
+.editor-section .handle-section {
+    position: absolute;
+    top: 5px;
+    right: 90px;
+    z-index: 10;
+    font-size: 13px;
+    cursor: move !important;
+    cursor: -webkit-grabbing !important;
+    min-width: 78px;
+}
+
+.editor-element .handle-element {
+    z-index: 10;
+    font-size: 13px;
+    cursor: move !important;
+    cursor: -webkit-grabbing !important;
+}
+
+.tweb-column .sortable-ghost,
+.tweb-sections .sortable-ghost {
+    width: 100%;
+    z-index: 1101;
+    border: 1px dashed grey; 
+}
+
+.tweb-column > li.sortable-ghost,
+.tweb-sections > li.sortable-ghost {
+    min-height: 400px;
+}
+
+.tweb-sections {
+    min-height: 500px;
+}
+
+.tweb-sections::after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    content: "Container";
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+.tweb-sections, .tweb-section, .tweb-column {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin-left: 0px;
+    margin-top: 10px;
+    padding: 30px 15px 15px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    position: relative;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.tweb-section,
+.section-preview {
+    background-color: #F5F5F5;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    position: relative;
+    padding: 25px 14px 0;
+}
+
+.tweb-section::before,
+.section-preview::before {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    content: "Section";
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    line-height: 2;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+.tweb-column,
+.column-preview {
+    /* background-color: #FFFFFF; */
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 24px;
+    position: relative;
+    min-height: 500px;
+}
+
+.tweb-column::after,
+.column-preview::after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    content: "Column";
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+
+.editor-section .remove {
+    font-size: 13px;
+    padding: 6px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+    min-width: 83px;
+}
+
+.editor-element .remove,
+.editor-element .handle-element {
+    font-size: 14px;
+    padding: 3px;
+    min-width: 30px;
+    margin-bottom: 1px;
+    color: #fff !important;
+}
+
+.editor-element {
+    width: 36px;
+    position: absolute;
+    top: 0;
+    right: -37px;
+    z-index: 1;
+}
+
+.media-field-toolbar {
+    position: absolute !important;
+    top: -34px;
+}
+
+.tweb-column .menu-item .preview {
+    display: none;
+}
+
+.tweb-column .menu-item .view {
+    display: '';
+}
+
+.tweb-element {
+    margin-bottom: 5em;
+    position: relative;
+}
+
+.tweb-column .menu-item .preview {
+    display: none;
+}
+
+.tweb-column .menu-item .view {
+    display: '';
+}
+
+.sub-menu .menu-item .preview {
+    display: ''
+}
+
+.sub-menu .menu-item .view {
+    display: none;
+}
+
+.tweb-sections .box .preview,
+.tweb-sections .menu-item .preview {
+    display: none;
+}
+
+.tweb-sections .box .view,
+.tweb-sections .menu-item .view {
+    display: '';
+}
+
+.sub-menu .menu-item .preview {
+    display: ''
+}
+
+.sub-menu .menu-item .view {
+    display: none;
+}
+
+.tweb-column .tweb-element .preview,
+.tweb-sections > .tweb-element .view {
+    display: none;
+}
+
+.tweb-sections .tweb-element .preview {
+    display: '';
+}
+
+.tweb-column .tweb-element .view {
+    height: 100%;
+    width: 100%;
+}
+
+.tweb-sections > div.sortable-ghost {
+    min-height: 500px;
+    border: none !important;
+}
+
+.tweb-sections > .tweb-element .section-preview {
+    border: 1px dashed #9DA0A4;
+    height: 100% !important;
+}
+
+.preview .trumbowyg-button-pane {
+    display: none;
+}
+

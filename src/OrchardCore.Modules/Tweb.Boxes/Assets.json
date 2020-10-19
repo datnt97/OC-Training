@@ -1,0 +1,8 @@
+[
+  {
+    "inputs": [
+      "Assets/scss/*.scss"
+    ],
+    "output": "wwwroot/Styles/boxes.css"
+  }
+]

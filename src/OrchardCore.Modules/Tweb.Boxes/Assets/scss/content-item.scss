@@ -1,0 +1,36 @@
+/* Content title */
+[id*="_HtmlBodyPart"] > .trumbowyg-box,
+.trumbowyg-editor,
+.tweb-element > [id*="_HtmlBodyPart"] {
+    height: 100%;
+    width: 100%;
+}
+/* End content title */
+
+[id*="_Paragraph_Content"] {
+    height: 100%;
+    width: 100%;
+}
+
+[id*="_Paragraph_Content"] > .trumbowyg-box,
+[id*="_Video_Youtube"]{
+    height: 100%;
+    width: 100%;
+}
+
+[id*="IMAGECONTENT"] > .view > [id*="_ImageContent_Image"] {
+    height: auto !important;
+}
+
+[id*="FEATUREDETAIL_"] > .view > [id*="_FeatureDetail_Icon"] {
+    height: auto !important;
+    text-align:center;
+}
+
+[id*="FEATUREDETAIL_"] {
+    background-color: rgba(240, 245, 255, 0.8);
+}
+
+[id*="FEATUREDETAIL_"] > .view > [id*="_FeatureDetail_Icon"] [class*="_FeatureDetail_Icon_ImgResize"] {
+    width: auto !important;
+}

@@ -1,0 +1,55 @@
+@media (max-width: 767px) {
+    .trumbowyg-button-pane {
+        z-index: 1000 !important;
+        width: 46px;
+        position: absolute;
+        top: 0;
+        left: -47px;
+        box-shadow: 0 5px 19px rgba(6,21,40,.3);
+        border-radius: 5px;
+        /* background: #fff !important; */
+    }
+    
+    .trumbowyg-button-pane::after {
+        height: 0 !important;
+    }
+    
+    .trumbowyg-button-group::after {
+        margin: 0 !important;
+        background-color: #ecf0f1 !important;
+        /* background-color: #fff !important; */
+    }
+
+    .trumbowyg-fixed-top {
+        left: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {    
+    .trumbowyg-button-pane {
+        z-index: 1000 !important;
+        width: 100%;
+        min-width: 358px;
+        position: absolute;
+        top: -38px;
+        padding: 0 !important;
+        box-shadow: 0 5px 19px rgba(6,21,40,.3);
+        border-radius: 5px;
+        /* background: #fff !important; */
+    }
+
+    .trumbowyg-button-pane::after {
+        height: 0 !important;
+    }
+
+    .trumbowyg-button-group::after {
+        margin: 0 !important;
+        background-color: #ecf0f1 !important;
+        /* background-color: #fff !important; */
+
+    }
+
+    .trumbowyg-fixed-top {
+        top: 0 !important;
+    }
+}
