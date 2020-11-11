@@ -15,6 +15,7 @@
   -->
 
   <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore.Modules\Lombiq.TrainingDemo\Lombiq.TrainingDemo.csproj" />
     <ProjectReference Include="..\OrchardCore.Application.Cms.Core.Targets\OrchardCore.Application.Cms.Core.Targets.csproj" PrivateAssets="none" />
 
     <!-- 
@@ -25,7 +26,6 @@
     <ProjectReference Include="..\..\OrchardCore.Themes\TheBlogTheme\TheBlogTheme.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\OrchardCore.Themes\TheComingSoonTheme\TheComingSoonTheme.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\OrchardCore.Themes\TheTheme\TheTheme.csproj" PrivateAssets="none" />
-    <ProjectReference Include="..\..\OrchardCore.Modules\Lombiq.TrainingDemo\Lombiq.TrainingDemo.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\OrchardCore.Modules\Lombiq.VueJs\Lombiq.VueJs.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\OrchardCore.Modules\Tweb.DragDrop.Demo\Tweb.DragDrop.Demo.csproj" PrivateAssets="none" />
   </ItemGroup>
