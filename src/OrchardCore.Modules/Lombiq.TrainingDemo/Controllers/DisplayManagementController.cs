@@ -1,8 +1,8 @@
 /*
  * In this section you will learn how Orchard Core deals with displaying various information on the UI using reusable
  * components called shapes (see:
- * https://docs.orchardcore.net/en/dev/docs/reference/core/Placement/#shapes). This is a very huge and powerful part of
- * Orchard Core, here you will learn the basics of Display Management.
+ * https://docs.orchardcore.net/en/dev/docs/reference/core/Placement/#shapes). This is a
+ * very huge and powerful part of Orchard Core, here you will learn the basics of Display Management.
  *
  * To demonstrate this basic functionality, we will create two slightly different pages for displaying information
  * about a book.
@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Lombiq.TrainingDemo.Controllers
 {
+    // Notice that the controller implements the IUpdateModel interface. This interface encapsulates the properties and
+    // methods related to ASP.NET Core MVC model binding. Orchard Core needs this model binding functionality outside
+    // the controllers (you will see it later).
     public class DisplayManagementController : Controller, IUpdateModel
     {
         // The core display management features can be used via the IDisplayManager service. The generic parameter will
@@ -24,13 +27,15 @@ namespace Lombiq.TrainingDemo.Controllers
         private readonly IDisplayManager<Book> _bookDisplayManager;
 
 
-        public DisplayManagementController(IDisplayManager<Book> bookDisplayManager) => _bookDisplayManager = bookDisplayManager;
+        public DisplayManagementController(IDisplayManager<Book> bookDisplayManager)
+        {
+            _bookDisplayManager = bookDisplayManager;
+        }
 
 
         // Before we learn how shapes are generated using the display manager let's see what are these shapes actually.
         // Ad-hoc shapes can be created anywhere without the display manager. In this example we'll see how to create
-        // an ad-hoc shape inside a view (or could be another shape). Later we'll see how to do it from a filter too.
-        // Open from under /Lombiq.TrainingDemo/DisplayManagement/AdHocShape.
+        // an ad-hoc shape inside a view (or could be another shape).
         public ActionResult AdHocShape() => View();
 
         // NEXT STATION: Views/DisplayManagement/AdHocShape.cshtml
@@ -69,7 +74,7 @@ namespace Lombiq.TrainingDemo.Controllers
         }
 
 
-        private static Book CreateDemoBook() =>
+        private Book CreateDemoBook() =>
             new Book
             {
                 CoverPhotoUrl = "/Lombiq.TrainingDemo/Images/HarryPotter.jpg",

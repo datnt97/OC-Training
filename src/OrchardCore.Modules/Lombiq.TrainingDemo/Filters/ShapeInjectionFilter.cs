@@ -10,12 +10,12 @@
  * which will make the page fade in on load.
  */
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.Layout;
-using System.Threading.Tasks;
 
 namespace Lombiq.TrainingDemo.Filters
 {
@@ -35,11 +35,11 @@ namespace Lombiq.TrainingDemo.Filters
         }
 
 
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        public async Task OnResultExecutionAsync(ResultExecutingContext filterContext, ResultExecutionDelegate next)
         {
             // You can decide when the filter should be executed here. If this is a ViewResult or PageResult the shape
             // injection wouldn't make any sense since there wouldn't be any zones.
-            if (!(context.Result is ViewResult || context.Result is PageResult))
+            if (!(filterContext.Result is ViewResult || filterContext.Result is PageResult))
             {
                 await next();
 
@@ -51,12 +51,11 @@ namespace Lombiq.TrainingDemo.Filters
 
             // The dynamic Layout object will contain a Zones dictionary that you can use to access a zone.
             var contentZone = layout.Zones["Content"];
-            // Here you can add an ad-hoc generated shape to the content zone. This works in the same way as we've seen
-            // previously when we talked about display management. You can find the template that'll renders this shape
-            // under Views/InjectedShape.cshtml.
+            // Here you can add an ad-hoc generated shape to the content zone.
             contentZone.Add(await _shapeFactory.New.InjectedShape());
 
             await next();
+            return;
         }
     }
 }

@@ -21,9 +21,7 @@ namespace Lombiq.TrainingDemo.Controllers
         private readonly INotifier _notifier;
         private readonly IStringLocalizer T;
         private readonly IHtmlLocalizer H;
-        // You can use the non-generic counterpart of ILogger once injected just be sure to inject the generic one
-        // otherwise the log entries won't contain the name of the class.
-        private readonly ILogger _logger;
+        private readonly ILogger<YourFirstOrchardCoreController> _logger;
 
 
         // Orchard Core uses the built in dependency injection feature coming with ASP.NET Core. You can use the
@@ -82,3 +80,4 @@ namespace Lombiq.TrainingDemo.Controllers
         }
     }
 }
+

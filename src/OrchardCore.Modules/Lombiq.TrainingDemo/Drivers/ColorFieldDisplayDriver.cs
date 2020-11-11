@@ -16,45 +16,44 @@ namespace Lombiq.TrainingDemo.Drivers
     // for content fields. Don't forget to register this class with the service provider (see: Startup.cs).
     public class ColorFieldDisplayDriver : ContentFieldDisplayDriver<ColorField>
     {
-        private readonly IStringLocalizer T;
+        public IStringLocalizer T { get; set; }
 
 
-        public ColorFieldDisplayDriver(IStringLocalizer<ColorFieldDisplayDriver> stringLocalizer) => T = stringLocalizer;
+        public ColorFieldDisplayDriver(IStringLocalizer<ColorFieldDisplayDriver> stringLocalizer)
+        {
+            T = stringLocalizer;
+        }
 
 
-        public override IDisplayResult Display(ColorField field, BuildFieldDisplayContext fieldDisplayContext) =>
+        public override IDisplayResult Display(ColorField field, BuildFieldDisplayContext context) =>
             // Same Display method for generating display shapes but this time the Initialize shape helper is being
             // used. We've seen it in the PersonPartDisplayDriver.Edit method. For this we need a view model object
             // which will be populated with the field data. The GetDisplayShapeType helper will generate a conventional
             // shape type for our content field which will be the name the field. Obviously, alternates can also be
             // used - so if the content item is being displayed with a display type named "Custom" then the
             // ColorField.Custom.cshtml file will be used, otherwise, the ColorField.cshtml will be active.
-            Initialize<DisplayColorFieldViewModel>(
-                GetDisplayShapeType(fieldDisplayContext),
-                viewModel =>
-                {
-                    viewModel.Field = field;
-                    viewModel.Part = fieldDisplayContext.ContentPart;
-                    viewModel.PartFieldDefinition = fieldDisplayContext.PartFieldDefinition;
-                })
+            Initialize<DisplayColorFieldViewModel>(GetDisplayShapeType(context), model =>
+            {
+                model.Field = field;
+                model.Part = context.ContentPart;
+                model.PartFieldDefinition = context.PartFieldDefinition;
+            })
             .Location("Content")
-            .Location("SummaryAdmin", string.Empty);
+            .Location("SummaryAdmin", "");
 
         // NEXT STATION: Take a look at the Views/ColorField.cshtml shape to see how our field should display the given
         // color and then come back here.
 
         public override IDisplayResult Edit(ColorField field, BuildFieldEditorContext context) =>
             // Nothing new here, the Initialize shape helper is being used to generate an editor shape.
-            Initialize<EditColorFieldViewModel>(
-                GetEditorShapeType(context),
-                viewModel =>
-                {
-                    viewModel.Value = field.Value;
-                    viewModel.ColorName = field.ColorName;
-                    viewModel.Field = field;
-                    viewModel.Part = context.ContentPart;
-                    viewModel.PartFieldDefinition = context.PartFieldDefinition;
-                });
+            Initialize<EditColorFieldViewModel>(GetEditorShapeType(context), model =>
+            {
+                model.Value = field.Value;
+                model.ColorName = field.ColorName;
+                model.Field = field;
+                model.Part = context.ContentPart;
+                model.PartFieldDefinition = context.PartFieldDefinition;
+            });
 
         // NEXT STATION: Settings/ColorFieldSettings
 
@@ -63,19 +62,19 @@ namespace Lombiq.TrainingDemo.Drivers
             var viewModel = new EditColorFieldViewModel();
 
             // Using this overload of the model updater you can specifically say what properties need to be updated.
-            // This way you make sure no other properties will be bound to the view model. Instead of this you could
-            // put [BindNever] attributes on the properties to make the model binder to skip those, it's up to you.
+            // This way you make sure no other properties will be bound to the view model. Instead of this you could put
+            // [BindNever] attributes to the properties to make the model binder to skip those, it's up to you.
             if (await updater.TryUpdateModelAsync(viewModel, Prefix, f => f.Value, f => f.ColorName))
             {
                 // Get the ColorFieldSettings to use it when validating the view model.
                 var settings = context.PartFieldDefinition.GetSettings<ColorFieldSettings>();
-                if (settings.Required && string.IsNullOrWhiteSpace(viewModel.Value))
+                if (settings.Required && string.IsNullOrWhiteSpace(field.Value))
                 {
                     updater.ModelState.AddModelError(Prefix, T["A value is required for {0}.", context.PartFieldDefinition.DisplayName()]);
                 }
 
-                // Also some custom validation for our ColorField hex value.
-                if (!string.IsNullOrWhiteSpace(viewModel.Value) &&
+                // Also some custom validation for our ColorField hex value. Could be done in the view model instead.
+                if (!string.IsNullOrWhiteSpace(field.Value) &&
                     !Regex.IsMatch(viewModel.Value, "^#([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
                 {
                     updater.ModelState.AddModelError(Prefix, T["The given color is invalid."]);
@@ -85,7 +84,7 @@ namespace Lombiq.TrainingDemo.Drivers
                 field.Value = viewModel.Value;
             }
 
-            return await EditAsync(field, context);
+            return Edit(field, context);
         }
     }
 }

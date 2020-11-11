@@ -1,12 +1,9 @@
 using Lombiq.TrainingDemo.Controllers;
 using Lombiq.TrainingDemo.Drivers;
-using Lombiq.TrainingDemo.Events;
 using Lombiq.TrainingDemo.Fields;
 using Lombiq.TrainingDemo.Filters;
-using Lombiq.TrainingDemo.Handlers;
 using Lombiq.TrainingDemo.Indexes;
 using Lombiq.TrainingDemo.Indexing;
-using Lombiq.TrainingDemo.Middlewares;
 using Lombiq.TrainingDemo.Migrations;
 using Lombiq.TrainingDemo.Models;
 using Lombiq.TrainingDemo.Navigation;
@@ -14,89 +11,81 @@ using Lombiq.TrainingDemo.Permissions;
 using Lombiq.TrainingDemo.Services;
 using Lombiq.TrainingDemo.Settings;
 using Lombiq.TrainingDemo.ViewModels;
-using System.Diagnostics.CodeAnalysis;
 
-/*
- * In this file you'll find the index of the whole (or at least most of the) module's classes for easier navigation
- * between topics. You can navigate directly to classes and their methods by clicking on their names (enclosed in a
- * Pointer<T>() ) and pressing F12.
- *
+/* 
+ * In this file you'll find the index of the whole (or at least most of the) module's classes for easier navigation 
+ * between topics. You can navigate directly to classes and their methods by clicking on their names (enclosed in a 
+ * Factory<T>() ) and pressing F12.
+ * 
  * This class is not doing anything and only serves as an easy to use table of contents.
  */
 namespace Lombiq.TrainingDemo
 {
-    internal static class Map
+    static class Map
     {
-#pragma warning disable S3241 // Methods should not return values that are never used
-        private static T Pointer<T>() => default;
-#pragma warning restore S3241 // Methods should not return values that are never used
+        private static T Factory<T>() => default;
 
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "It's used but by humans :).")]
         private static void Treasure()
         {
-            // Recipes
-            // Recipes/TrainingDemo.recipe.json
-
             // Manifest.cs: module manifest and dependencies
 
             // Static resources: styles and scripts
             // Declaration
-            Pointer<ResourceManifest>();
+            Factory<ResourceManifest>();
 
             // Usage: require/include
             // Views/PersonListDashboard
 
 
             // Basic controller demonstrating localization, Notifier, Logger, routing
-            Pointer<YourFirstOrchardCoreController>();
+            Factory<YourFirstOrchardCoreController>();
 
 
-            // Display management, IDisplayManager, ad-hoc shapes, shape injection from template
-            Pointer<DisplayManagementController>();
+            // Display management, IDisplayManager
+            Factory<DisplayManagementController>();
 
             // Display types, zones, placement
             // Views/Book.cshtml
             // Views/Book.Description.cshtml
-            Pointer<BookDisplayDriver>();
+            Factory<BookDisplayDriver>();
 
 
             // ContentPart, ContentField on ContentPart
-            Pointer<PersonPart>();
+            Factory<PersonPart>();
 
             // Displaying, editing and updating ContentPart
             // Views/PersonPart.cshtml
             // Views/PersonPart.Edit.cshtml
             // Views/PersonPart.Summary.cshtml built-in Summary display type
             // Views/PersonPart.SummaryAdmin.cshtml built-in SummaryAdmin display type
-            Pointer<PersonPartDisplayDriver>();
-            Pointer<PersonPartHandler>();
+            Factory<PersonPartDisplayDriver>();
 
             // Validating ContentPart fields
-            Pointer<PersonPartViewModel>();
+            Factory<PersonPartViewModel>();
 
             // IndexProvider, indexing simple obj
 
             // IndexProvider, indexing simple object or ContentPart in records
-            Pointer<BookIndex>();
-            Pointer<PersonPartIndex>();
+            Factory<BookIndex>();
+            Factory<PersonPartIndex>();
 
-            // Content Type (standard and widget), ContentPart, ContentField, index record creation.
-            Pointer<PersonMigrations>();
+            // Content Type, ContentPart, ContentField, index record creation.
+            Factory<PersonMigrations>();
 
             // ISession, IContentItemDisplayManager, IClock
-            Pointer<DatabaseStorageController>();
-            Pointer<PersonListController>();
+            Factory<DatabaseStorageController>();
+            Factory<PersonListController>();
 
 
             // ContentField
-            Pointer<ColorField>();
+            Factory<ColorField>();
 
             // ContentFieldSettings
-            Pointer<ColorFieldSettings>();
+            Factory<ColorFieldSettings>();
 
             // Editing and updating ContentFieldSettings
             // Views/ColorFieldSettings.Edit.cshtml
-            Pointer<ColorFieldSettingsDriver>();
+            Factory<ColorFieldSettingsDriver>();
 
             // Displaying, editing and updating ContentField
             // Views/ColorField.cshtml
@@ -104,95 +93,79 @@ namespace Lombiq.TrainingDemo
             // Views/ColorField.Option.cshtml default editor option name
             // Views/ColorField-ColorPicker.Option.cshtml custom editor option name
             // Views/ColorField-ColorPicker.Edit.cshtml custom editor option editor
-            Pointer<ColorFieldDisplayDriver>();
+            Factory<ColorFieldDisplayDriver>();
 
             // ContentFieldIndexHandler, indexing ContentField using custom index provider (e.g. Lucene).
-            Pointer<ColorFieldIndexHandler>();
+            Factory<ColorFieldIndexHandler>();
 
 
             // ResourceManifest, scripts, styles
             // Views/ColorField-ColorPicker.Edit.cshtml resource injection
-            Pointer<ResourceManifest>();
+            Factory<ResourceManifest>();
 
 
             // IAuthorizationService
-            Pointer<AuthorizationController>();
+            Factory<AuthorizationController>();
 
             // Permissions, PermissionProvider
-            Pointer<DemoSettingsPermissions>();
-            Pointer<PersonPermissions>();
+            Factory<DemoSettingsPermissions>();
+            Factory<PersonPermissions>();
 
 
             // Admin attribute
-            Pointer<AdminController>();
+            Factory<AdminController>();
 
             // Menu, Admin menu, NavigationProvider
-            Pointer<DemoSettingsAdminMenu>();
-            Pointer<PersonsAdminMenu>();
+            Factory<DemoSettingsAdminMenu>();
+            Factory<PersonsAdminMenu>();
 
 
             // SectionDisplayDriver, ISite, DisplayDriver for SiteSettings
-            Pointer<DemoSettingsDisplayDriver>();
+            Factory<DemoSettingsDisplayDriver>();
 
-            // SiteSettings, ISite, ISiteService, Options
-            Pointer<SiteSettingsController>();
+            // SiteSettings, ISite, ISiteService
+            Factory<SiteSettingsController>();
 
 
             // ResultFilter, IAsyncResultFilter
-            Pointer<ShapeInjectionFilter>();
-            Pointer<ResourceInjectionFilter>();
+            Factory<ShapeInjectionFilter>();
+            Factory<ResourceInjectionFilter>();
 
-            // ILayoutAccessor, IShapeFactory, zones, ad-hoc shapes, shape injection from filter
-            Pointer<ShapeInjectionFilter>();
+            // ILayoutAccessor, IShapeFactory, zones, ad-hoc shapes, shape injection
+            Factory<ShapeInjectionFilter>();
 
             // IResourceManager, resource injection
-            Pointer<ResourceInjectionFilter>();
+            Factory<ResourceInjectionFilter>();
 
 
             // Memory Cache, Dynamic Cache
             // IMemoryCache, IDynamicCacheService, ITagCache
-            Pointer<DateTimeCachingService>();
+            Factory<DateTimeCachingService>();
 
             // ILocalClock
             // Views/Cache/Index.cshtml
             // Views/Cache/Shape.cshtml
             // Views/CachedShape.cshtml
-            Pointer<DateTimeCachingService>();
+            Factory<DateTimeCachingService>();
 
 
             // IMediaFileStore, custom file store
-            Pointer<FileManagementController>();
+            Factory<FileManagementController>();
 
             // FileSystemStore, IFileStore
-            Pointer<CustomFileStore>();
+            Factory<CustomFileStore>();
 
 
             // BackgroundTask, BackgroundTaskSettings
-            Pointer<DemoBackgroundTask>();
-
-            // Event handlers
-            Pointer<LoginGreeting>();
-
-            // Web API (RESTful API controller)
-            Pointer<ApiController>();
-
-            // Middleware
-            Pointer<RequestLoggingMiddleware>();
-
-            // Accessing services from other tenants
-            Pointer<CrossTenantServicesController>();
-
-            // Unit and integration testing
-            Pointer<TestedService>();
+            Factory<DemoBackgroundTask>();
 
 
             // Vue.js app, Vue.js component, Vue.js initialization
-            Pointer<VueJsController>();
             // Views/VueJs/DemoApp.cshtml
             // Views/VueComponents/Demo.Component.cshtml
 
-            // Resource compilation, asset management, Gulp, Babel
-            // Gulpfile.babel.js
+            // Resource compilation, asset magement, Gulp, Babel
+            // Gulpfile.js
         }
     }
 }

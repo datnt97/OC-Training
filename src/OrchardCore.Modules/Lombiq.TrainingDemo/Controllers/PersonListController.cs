@@ -8,40 +8,33 @@
  * administration page (/Admin) and create a few Person content items, including ones with ages above 30.
  */
 
+using System.Linq;
+using System.Threading.Tasks;
 using Lombiq.TrainingDemo.Indexes;
-using Lombiq.TrainingDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Modules;
-using System.Linq;
-using System.Threading.Tasks;
 using YesSql;
 
 namespace Lombiq.TrainingDemo.Controllers
 {
-    public class PersonListController : Controller
+    public class PersonListController : Controller, IUpdateModel
     {
         private readonly ISession _session;
         private readonly IClock _clock;
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
-        private readonly IUpdateModelAccessor _updateModelAccessor;
-        private readonly IContentManager _contentManager;
 
 
         public PersonListController(
             ISession session,
             IClock clock,
-            IContentItemDisplayManager contentItemDisplayManager,
-            IUpdateModelAccessor updateModelAccessor,
-            IContentManager contentManager)
+            IContentItemDisplayManager contentItemDisplayManager)
         {
             _session = session;
             _clock = clock;
             _contentItemDisplayManager = contentItemDisplayManager;
-            _updateModelAccessor = updateModelAccessor;
-            _contentManager = contentManager;
         }
 
 
@@ -63,69 +56,13 @@ namespace Lombiq.TrainingDemo.Controllers
             // created for these parts and fields.
             // NEXT STATION: Drivers/PersonPartDisplayDriver
             var shapes = await Task.WhenAll(people.Select(async person =>
-            {
-                // When you retrieve content items via ISession then you also need to run LoadAsync() on them to
-                // initialize everything.
-                await _contentManager.LoadAsync(person);
+                await _contentItemDisplayManager.BuildDisplayAsync(person, this, "Summary")));
 
-                return await _contentItemDisplayManager.BuildDisplayAsync(person, _updateModelAccessor.ModelUpdater, "Summary");
-            }));
-
-            // Now assuming that you've already created a few Person content items on the dashboard and some of these
-            // persons are more than 30 years old then this query will contain items to display.
-            // NEXT STATION: Go to Views/PersonList/OlderThan30.cshtml and then come back here please.
-
+            // Now assuming that you've already created a few Person content items on the dashboard and some of
+            // these persons are more than 30 years old then this query will contain items to display.
+            // NEXT STATION: Views/PersonList/OlderThan30.cshtml
+            
             return View(shapes);
-        }
-
-        // Check out the result under /Lombiq.TrainingDemo/PersonList/FountainOfEternalYouth.
-        public async Task<string> FountainOfEternalYouth()
-        {
-            // Here we'll modify content items directly from code and in the meantime we'll learn a lot of new things.
-
-            // Again we'll fetch content items with PersonPart but this time we'll retrieve old people and we'll make
-            // them younger!
-            var thresholdDate = _clock.UtcNow.AddYears(-90);
-            var oldPeople = (await _session
-                .Query<ContentItem, PersonPartIndex>(index => index.BirthDateUtc < thresholdDate)
-                .ListAsync())
-                .ToList();
-
-            foreach (var person in oldPeople)
-            {
-                // Have to run LoadAsync() here too.
-                await _contentManager.LoadAsync(person);
-
-                var eighteenYearOld = _clock.UtcNow.AddYears(-18);
-
-                // Don't just overwrite the part's property directly! That'll change the index record but not the
-                // document! Don't just do this:
-                ////person.As<PersonPart>().BirthDateUtc = eighteenYearOld;
-                // Instead, use Alter() as we do below:
-                person.Alter<PersonPart>(part => part.BirthDateUtc = eighteenYearOld);
-
-                // Once you're done you have to save the content item explicitly. Remember when we saved Books with
-                // ISession.Save()? This is something similar for content items.
-                await _contentManager.UpdateAsync(person);
-
-                // After saving the content item with UpdateAsync() you also need to publish it to make sure that even
-                // a draftable content item gets updated.
-                await _contentManager.PublishAsync(person);
-            }
-
-            // If you want to manage just one content item or a couple of them that you know by ID then fetch them
-            // with IContentManager.GetAsync() instead.
-
-            return "People modified: " +
-                (oldPeople.Any() ?
-                    string.Join(", ", oldPeople.Select(person => person.As<PersonPart>().Name)) :
-                    "Nobody. Did you create people older than 90?");
-
-            // That was a quick intro to modifying content items from code. It's a lot more involved than this but
-            // this should get you going!
-
-            // There is one final piece missing to make what we need to know about content items complete. NEXT
-            // STATION: Check out Handlers/PersonPartHandler.
         }
     }
 }

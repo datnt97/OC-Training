@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using OrchardCore.DynamicCache;
 using OrchardCore.Environment.Cache;
@@ -9,6 +9,15 @@ using System.Threading.Tasks;
 
 namespace Lombiq.TrainingDemo.Services
 {
+    public interface IDateTimeCachingService
+    {
+        Task<DateTime> GetMemoryCachedDateTimeAsync();
+        Task<DateTime> GetDynamicCachedDateTimeWith30SecondsExpiryAsync();
+        Task<DateTime> GetDynamicCachedDateTimeVariedByRoutesAsync();
+        Task InvalidateCachedDateTimeAsync();
+    }
+
+
     public class DateTimeCachingService : IDateTimeCachingService
     {
         public const string MemoryCacheKey = "Lombiq.TrainingDemo.MemoryCache.DateTime";
@@ -20,16 +29,12 @@ namespace Lombiq.TrainingDemo.Services
         // current local date based on the site settings. Also dates can be converted from or to UTC.
         private readonly ILocalClock _localClock;
 
-        // IMemoryCache service is a built-in service in ASP.NET Core. Use this if you want a fast cache that's local
-        // to the current process. Do note that if you app runs on multiple servers this cache won't be shared among
-        // nodes. To learn more about IMemoryCache visit
+        // IMemoryCache service is a built-in service in ASP.NET Core. To learn more about this visit
         // https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory.
         private readonly IMemoryCache _memoryCache;
 
         // Dynamic Cache is implemented primarily for caching shapes. It is based on the built-in ASP.NET Core
-        // IDistributedCache service which by default is implemented by DistributedMemoryCache. If you just want to
-        // cache simple values like you'd do with IMemoryCache but in a way that also shares cache entries between
-        // servers when your app runs on multiple servers then use IDistributedCache directly. To learn more about
+        // IDistributedCache service which by default is implemented by DistributedMemoryCache. To learn more about
         // distributed caching and IDistributedCache visit
         // https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed.
         private readonly IDynamicCacheService _dynamicCacheService;
@@ -77,9 +82,7 @@ namespace Lombiq.TrainingDemo.Services
             await GetOrCreateDynamicCachedDateTimeAsync(
                 // Notice that the CacheContext object has chainable methods so you can use them to populate the
                 // settings.
-#pragma warning disable SA1114 // Parameter list should follow declaration (necessary for the comment)
                 new CacheContext(DynamicCacheKey).WithExpiryAfter(TimeSpan.FromSeconds(30)));
-#pragma warning restore SA1114 // Parameter list should follow declaration
 
         // This method will cache the current date similarly then the previous one however instead of setting a 30
         // second expiration it will be tagged so later it can be invalidated. Also this cache will be differentiated
@@ -93,14 +96,14 @@ namespace Lombiq.TrainingDemo.Services
                     .AddContext("route")
                     .AddTag(DynamicCacheTag));
 
-        // Invalidates the memory cache and all the dynamic caches which have been tagged.
-        public Task InvalidateCachedDateTimeAsync()
+        // It will invalidate the memory cache and all the dynamic caches which have been tagged.
+        public async Task InvalidateCachedDateTimeAsync()
         {
             // As mentioned ISignal service is used to invalidate the memory cache.
             _signal.SignalToken(MemoryCacheKey);
 
             // ITagCache.RemoveTagAsync will invalidate all the dynamic caches which are tagged with the given tag.
-            return _tagCache.RemoveTagAsync(DynamicCacheTag);
+            await _tagCache.RemoveTagAsync(DynamicCacheTag);
         }
 
 

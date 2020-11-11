@@ -16,7 +16,6 @@
         "Lombiq.TrainingDemo",
         "OrchardCore.Admin",
         "OrchardCore.HomeRoute",
-        "OrchardCore.Layers",
         "OrchardCore.Localization",
         "OrchardCore.Features",
         "OrchardCore.Navigation",
@@ -44,25 +43,7 @@
         "Action": "Index",
         "Controller": "Home",
         "Area": "TheTheme"
-      },
-      "LayerSettings": {
-        "Zones": [ "Header", "Messages", "Footer" ]
       }
-    },
-    {
-      "name": "layers",
-      "Layers": [
-        {
-          "Name": "Always",
-          "Rule": "true",
-          "Description": "The widgets in this layer are displayed on any page of this site."
-        },
-        {
-          "Name": "Homepage",
-          "Rule": "isHomepage()",
-          "Description": "The widgets in this layer are only displayed on the homepage."
-        }
-      ]
     }
   ]
 }

@@ -17,7 +17,6 @@ namespace Lombiq.TrainingDemo.Controllers
     public class VueJsController : Controller
     {
         [HttpGet]
-        // Open this from under /Lombiq.TrainingDemo/VueJs/DemoApp
         public ActionResult DemoApp() => View();
 
         // NEXT STATION: Views/VueJs/DemoApp.cshtml

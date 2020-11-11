@@ -11,28 +11,26 @@ namespace Lombiq.TrainingDemo.Settings
     public class ColorFieldSettingsDriver : ContentPartFieldDefinitionDisplayDriver<ColorField>
     {
         // This won't have a Display override since it wouldn't make too much sense, settings are just edited.
-        public override IDisplayResult Edit(ContentPartFieldDefinition model) =>
+        public override IDisplayResult Edit(ContentPartFieldDefinition partFieldDefinition) =>
             // Same old Initialize shape helper.
-            Initialize<ColorFieldSettings>(
-                $"{nameof(ColorFieldSettings)}_Edit",
-                settings => model.PopulateSettings(settings))
+            Initialize<ColorFieldSettings>($"{nameof(ColorFieldSettings)}_Edit",
+                model => partFieldDefinition.PopulateSettings(model))
             .Location("Content");
 
         // ColorFieldSettings.Edit.cshtml file will contain the editor inputs.
-
+        
         public override async Task<IDisplayResult> UpdateAsync(
-            ContentPartFieldDefinition model,
+            ContentPartFieldDefinition partFieldDefinition,
             UpdatePartFieldEditorContext context)
         {
-            var settings = new ColorFieldSettings();
+            var model = new ColorFieldSettings();
 
-            await context.Updater.TryUpdateModelAsync(settings, Prefix);
+            await context.Updater.TryUpdateModelAsync(model, Prefix);
 
             // A content field or a content part can have multiple settings. These settings are stored in a single JSON
-            // object. This helper will merge our settings into this JSON object so these will be stored.
-            context.Builder.WithSettings(settings);
-
-            return Edit(model);
+            // object. This helper will merge our settings to this JSON object so these will be stored.
+            context.Builder.MergeSettings<ColorFieldSettings>(settings => settings = model);
+            return Edit(partFieldDefinition);
         }
     }
 }

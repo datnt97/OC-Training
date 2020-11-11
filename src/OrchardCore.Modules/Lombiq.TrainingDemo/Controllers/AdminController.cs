@@ -4,6 +4,9 @@
  * create menu items as well.
  */
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Lombiq.TrainingDemo.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,32 +15,26 @@ using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using YesSql;
 
 namespace Lombiq.TrainingDemo.Controllers
 {
     // If you have multiple admin controllers then name them whatever you want but put an [Admin] attribute on them.
-    public class AdminController : Controller
+    public class AdminController : Controller, IUpdateModel
     {
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
         private readonly ISession _session;
         private readonly IAuthorizationService _authorizationService;
-        private readonly IUpdateModelAccessor _updateModelAccessor;
 
 
         public AdminController(
             IContentItemDisplayManager contentItemDisplayManager,
             ISession session,
-            IAuthorizationService authorizationService,
-            IUpdateModelAccessor updateModelAccessor)
+            IAuthorizationService authorizationService)
         {
             _contentItemDisplayManager = contentItemDisplayManager;
             _session = session;
             _authorizationService = authorizationService;
-            _updateModelAccessor = updateModelAccessor;
         }
 
 
@@ -57,17 +54,17 @@ namespace Lombiq.TrainingDemo.Controllers
                 return Unauthorized();
             }
 
-            // Nothing special here just display the last 10 Person Page content items.
+            // Nothing special here just display the last 10 Person content items.
             var persons = await _session
                 .Query<ContentItem, ContentItemIndex>()
-                .Where(index => index.ContentType == ContentTypes.PersonPage)
+                .Where(index => index.ContentType == "Person")
                 .OrderByDescending(index => index.CreatedUtc)
                 .Take(10)
                 .ListAsync();
 
             // In the Views/Admin/PersonList.cshtml file you can see how shape lists (IEnumerable<dynamic>) are
             // displayed.
-            return View("PersonList", await GetShapesAsync(persons));
+            return View("PersonList", await GetShapes(persons));
         }
 
         public async Task<ActionResult> PersonListOldest()
@@ -77,23 +74,23 @@ namespace Lombiq.TrainingDemo.Controllers
                 return Unauthorized();
             }
 
-            // Display the first 10 Person Page content items.
+            // Display the first 10 Person content items.
             var persons = await _session
                 .Query<ContentItem, ContentItemIndex>()
-                .Where(index => index.ContentType == ContentTypes.PersonPage)
+                .Where(index => index.ContentType == "Person")
                 .OrderBy(index => index.CreatedUtc)
                 .Take(10)
                 .ListAsync();
 
-            return View("PersonList", await GetShapesAsync(persons));
+            return View("PersonList", await GetShapes(persons));
         }
 
 
-        private async Task<IEnumerable<IShape>> GetShapesAsync(IEnumerable<ContentItem> persons) =>
+        private async Task<IEnumerable<IShape>> GetShapes(IEnumerable<ContentItem> persons) =>
             // Notice the "SummaryAdmin" display type which is a built in display type specifically for listing items
             // on the dashboard.
             await Task.WhenAll(persons.Select(async person =>
-                await _contentItemDisplayManager.BuildDisplayAsync(person, _updateModelAccessor.ModelUpdater, "SummaryAdmin")));
+                await _contentItemDisplayManager.BuildDisplayAsync(person, this, "SummaryAdmin")));
     }
 }
 

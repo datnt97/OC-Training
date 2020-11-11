@@ -1,7 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OrchardCore.ResourceManagement;
-using System.Threading.Tasks;
 
 namespace Lombiq.TrainingDemo.Filters
 {
@@ -12,16 +12,19 @@ namespace Lombiq.TrainingDemo.Filters
         private readonly IResourceManager _resourceManager;
 
 
-        public ResourceInjectionFilter(IResourceManager resourceManager) => _resourceManager = resourceManager;
+        public ResourceInjectionFilter(IResourceManager resourceManager)
+        {
+            _resourceManager = resourceManager;
+        }
 
 
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        public async Task OnResultExecutionAsync(ResultExecutingContext filterContext, ResultExecutionDelegate next)
         {
             // Let's decide when the filter should be executed. It wouldn't make sense to inject resources if this is a
             // partial view. Also here's an example of how to check if the request contains a "fadeIn" query string
             // parameter.
-            if ((context.Result is PartialViewResult) ||
-                !context.HttpContext.Request.Query.ContainsKey("fadeIn"))
+            if ((filterContext.Result is PartialViewResult) ||
+                !filterContext.HttpContext.Request.Query.ContainsKey("fadeIn"))
             {
                 await next();
 
@@ -34,6 +37,7 @@ namespace Lombiq.TrainingDemo.Filters
             _resourceManager.RegisterResource("stylesheet", "Lombiq.TrainingDemo.Filtered");
 
             await next();
+            return;
         }
     }
 }

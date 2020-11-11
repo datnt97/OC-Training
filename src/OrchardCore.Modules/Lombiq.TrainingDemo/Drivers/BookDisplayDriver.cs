@@ -1,7 +1,6 @@
 using Lombiq.TrainingDemo.Models;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Lombiq.TrainingDemo.Drivers
 {
@@ -16,7 +15,6 @@ namespace Lombiq.TrainingDemo.Drivers
         // So we have a Book object and we want to register some display shapes. For this you need to override the
         // Display or DisplayAsync methods depending on your code (only one can be used!). Ultimately, the
         // DisplayManager will return a shape that contains all (or some) of these shapes.
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114:Parameter list should follow declaration", Justification = "Necessary for comments.")]
         public override IDisplayResult Display(Book model) =>
             // For the sake of demonstration we use Combined() here. It makes it possible to return multiple shapes
             // from a driver method - won't necessarily be displayed all at once!
